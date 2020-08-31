@@ -12,6 +12,10 @@
 var map = null;
 export default {
   name: "wxh-map",
+  model: {
+    prop: "lnglat",
+    event: "send",
+  },
   props: ["lnglat", "visibility", "el"],
   data() {
     return {
@@ -47,7 +51,7 @@ export default {
         zoom: 10, //级别
         center: [118.397428, 31.90923], //中心点坐标
       });
-      if (this.lnglat.indexOf(",") != -1) {
+      if (this.lnglat && this.lnglat.indexOf(",") != -1) {
         let lng_lat = this.lnglat.split(",");
         let marker = new AMap.Marker({
           position: [lng_lat[0], lng_lat[1]],
@@ -109,6 +113,7 @@ export default {
         this.base.warn(this, "您还未选择坐标点");
       }
       this.$emit("sure", this.lng_lat);
+      this.$emit("send", this.lng_lat);
       this.$emit("close");
       // map.clearMap();
     },

@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: "base-btn",
+  name: "wxh-btn",
   props: ["type"],
   data() {
     return {

@@ -5,7 +5,7 @@
 </template>
 <script>
 export default {
-  name:'Foot',
+  name:'wxh-foot',
   props: ['arr'],
   data() {
     return {};

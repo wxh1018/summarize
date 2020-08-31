@@ -1,10 +1,10 @@
 <template>
   <div class="wrap">
-    <Tab :tabData="tabData" :active="activeName" @event="tabevent" />
+    <wxh-map :visibility="show_map" v-model="logLat" el="mapbig" @close="show_map = false" />
+    <wxh-btn>打开地图</wxh-btn>
   </div>
 </template>
 <script>
-import Tab from "@/views/tab/tab.vue";
 export default {
   data() {
     return {
@@ -23,9 +23,11 @@ export default {
         },
       ],
       activeName: "1",
+      show_map: false,
+      logLat: "",
     };
   },
-  components: { Tab },
+  components: {},
   computed: {},
   watch: {},
   created() {},

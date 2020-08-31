@@ -10,6 +10,7 @@
 </template>
 <script>
 export default {
+  name:'wxh-tab',
   props: ["active", "tabData"],
   data() {
     return {

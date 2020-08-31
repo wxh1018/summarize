@@ -23,12 +23,6 @@ let router = new Router({
       name: 'menu',
       component: lazy('menu/menu.vue'),
     },
-    {
-      path: '/tab',
-      name: 'tab',
-      component: lazy('tab/tab.vue'),
-    },
-    
   ]
 })
 
