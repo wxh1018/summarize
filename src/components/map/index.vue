@@ -3,8 +3,8 @@
     <div class="mapbox" :id="el"></div>
     <el-input v-model="searchmap" class="searchmap" placeholder="搜索地址"></el-input>
     <div class="des_sure">
-      <base-btn @click="disno">取消</base-btn>
-      <base-btn @click="sure">确认</base-btn>
+      <wxh-btn @click="disno">取消</wxh-btn>
+      <wxh-btn @click="sure">确认</wxh-btn>
     </div>
   </div>
 </template>
@@ -32,18 +32,32 @@ export default {
   watch: {
     visibility(v) {
       this.addclass1 = true;
+      this.add();
     },
     searchmap(v) {
       this.searchVal(v);
     },
   },
-  created() {},
+  created() {
+  },
   mounted() {
     this.creat_map();
   },
   methods: {
+    // 默认添加点
+    add() {
+      if (this.lnglat && this.lnglat.indexOf(",") != -1) {
+        let lng_lat = this.lnglat.split(",");
+        map.clearMap();
+        let marker = new AMap.Marker({
+          position: [lng_lat[0], lng_lat[1]],
+          offset: new AMap.Pixel(-13, -30),
+        });
+        map.setCenter([lng_lat[0], lng_lat[1]]);
+        map.add(marker);
+      }
+    },
     creat_map() {
-      console.log("地图加载");
       let _this = this;
       var sure = document.querySelector("#map1 .sure");
 
@@ -78,7 +92,9 @@ export default {
         map.setFitView();
       }
     },
+    // 搜索
     searchVal(v) {
+      let _this = this;
       // 获取输入提示信息
       function autoInput() {
         var keywords = v;
@@ -96,6 +112,13 @@ export default {
                 this.base.warn(this, "未找到地址");
                 return;
               }
+              map.clearMap();
+              let marker = new AMap.Marker({
+                position: [data.lng, data.lat],
+                offset: new AMap.Pixel(-13, -30),
+              });
+              _this.lng_lat = `${data.lng},${data.lat}`;
+              map.add(marker);
               let lnglat = [data.lng, data.lat];
               map.setZoomAndCenter("14", lnglat);
             }
@@ -117,6 +140,7 @@ export default {
       this.$emit("close");
       // map.clearMap();
     },
+    // 取消
     disno() {
       this.$emit("close");
     },
@@ -145,6 +169,8 @@ export default {
 }
 .des_sure {
   position: absolute;
+  display: flex;
+  justify-content: space-between;
   width: 300px;
   bottom: 50px;
   right: 50px;
@@ -153,6 +179,7 @@ export default {
   transform: scale(1) !important;
 }
 .searchmap {
+  width: calc(100% - 60px) !important;
   position: absolute;
   left: 30px;
   top: 30px;

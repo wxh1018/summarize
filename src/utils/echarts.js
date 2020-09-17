@@ -306,6 +306,35 @@ const echarts = {
             },
             data: arr
         }
-    }
+    },
+    getZhuColor(i = 0) {
+        let self = this;
+        let color = [
+            ["#e3ccfb", "#b472ee"],
+            ["rgba(0,244,255,1)", "rgba(0,160,221,1)"],
+        ];
+        let normal = {
+            color: new self.$echarts.graphic.LinearGradient(
+                0,
+                0,
+                0,
+                1,
+                [
+                    {
+                        offset: 0,
+                        color: color[i][0], // 0% 处的颜色
+                    },
+                    {
+                        offset: 1,
+                        color: color[i][1], // 100% 处的颜色
+                    },
+                ],
+                false
+            ),
+            // barBorderRadius: [30, 30, 30, 30],
+            shadowColor: "rgba(0,160,221,1)",
+        };
+        return normal;
+    },
 }
 export default echarts

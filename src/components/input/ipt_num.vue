@@ -24,6 +24,7 @@ export default {
       if (isNaN(v)) {
         this.value = old;
       } else {
+        this.value = v;
         this.$emit("send", v);
       }
     },

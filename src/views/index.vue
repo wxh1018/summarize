@@ -1,47 +1,131 @@
 <template>
-  <div class="wrap">
-    <wxh-map :visibility="show_map" v-model="logLat" el="mapbig" @close="show_map = false" />
-    <wxh-btn>打开地图</wxh-btn>
+  <div class="home">
+    <el-row :gutter="20">
+      <el-col :span="4" v-for="(item,id) in list" :key="id">
+        <div class="box" @click="jump(item.comid)" :style="randomcolor()">{{item.name}}</div>
+      </el-col>
+    </el-row>
+    <component :is="componentId"></component>
+    <ul>
+      <template v-for="item in 10">
+        <li>{{item}}</li>
+        <li>{{item}}</li>
+      </template>
+    </ul>
   </div>
 </template>
 <script>
+import coms from "./index.js";
 export default {
   data() {
     return {
-      tabData: [
-        {
-          id: 1,
-          name: "about",
-        },
-        {
-          id: 2,
-          name: "home",
-        },
-        {
-          id: 3,
-          name: "other",
-        },
+      items: [1, 2, 3],
+      list: [
+        { name: "map", comid: "map2" },
+        { name: "menu", comid: "Left" },
+        { name: "echarts", comid: "" },
+        { name: "upload", comid: "upoload" },
+        { name: "step", comid: "step" },
       ],
-      activeName: "1",
-      show_map: false,
-      logLat: "",
+      colors: [
+        "#55efc4",
+        "#81ecec",
+        "#74b9ff",
+        "#a29bfe",
+        "#dfe6e9",
+        "#00cec9",
+        "#0984e3",
+        "#6c5ce7",
+        "#b2bec3",
+        "#ffeaa7",
+        "#fab1a0",
+        "#ff7675",
+        "#fd79a8",
+        "#636e72",
+        "#fdcb6e",
+        "#e17055",
+        "#d63031",
+        "#e84393",
+        "#2d3436",
+      ],
+      componentId: "",
     };
   },
-  components: {},
+  components: {
+    ...coms,
+  },
   computed: {},
   watch: {},
-  created() {},
-  mounted() {},
+  created() {
+    String.prototype.toArray = function () {
+      let arr = [];
+      for (let i = 0; i < this.length; i++) {
+        arr.push(this[i]);
+      }
+      return arr;
+    };
+  },
+  mounted() {
+    let tolow = (str) => str.toLocaleLowerCase();
+    let replace = (str) => str.replace(/a/g, "");
+    this.base.pipeline(tolow, replace)("NAME");
+  },
   methods: {
-    tabevent(v) {
-      console.log(v);
+    jump: _.debounce(function (id) {
+      console.log(1);
+      if (id != "") {
+        this.componentId = id;
+      }
+    }, 100),
+    randomcolor() {
+      let deg = "-90";
+      let start = "white";
+      let end = "red";
+      start = this.getcolor();
+      end = this.getcolor();
+      let sty = `background: ${start}`;
+      // let sty = `background: linear-gradient(${deg}deg,${start}, ${end});`;
+      return sty;
     },
+    getcolor() {
+      let colors = "123123123abcdfabcefabcdef".toArray();
+      let co = "";
+      // for (let i = 0; i < 6; i++) {
+      //   let a = Math.ceil(Math.random() * colors.length);
+      //   co += colors[a];
+      // }
+      // return "#" + co;
+      let num = Math.floor(Math.random() * this.colors.length);
+      co = this.colors[num];
+      return co;
+    },
+    tabevent(v) {},
   },
 };
 </script>
 <style scoped lang="less">
-.wrap {
+.home {
   width: 100%;
   height: 100%;
+  position: relative;
+  padding: 20px;
+}
+.box {
+  height: 100px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 28px;
+  cursor: pointer;
+}
+.el-col {
+  margin-bottom: 20px;
+}
+@media screen and (max-width: 1000px) {
+  .box {
+    font-size: 20px;
+  }
 }
 </style>

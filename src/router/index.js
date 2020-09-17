@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 
+function lazy1(name) {
+  return () => import('@/components/' + name)
+}
 function lazy(name) {
   return () => import('@/views/' + name)
 }
@@ -11,17 +13,27 @@ let router = new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      redirect: '/home'
     },
     {
       path: '/home',
+      name: 'home',
       component: lazy('index.vue'),
+    },
+    {
+      path: '/search_area_data',
+      name: 'search_area_data',
+      component: lazy1('search_area.vue')
     },
     {
       path: '/menu',
       name: 'menu',
-      component: lazy('menu/menu.vue'),
+      component: lazy('menu/left.vue'),
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: lazy('upload'),
     },
   ]
 })

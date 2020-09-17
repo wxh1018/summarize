@@ -21,6 +21,9 @@ let base = {
             duration: 2000
         });
     },
+    pipeline: function (...fns) {
+        return val => fns.reduce((a, b) => b(a), val)
+    },
     // 设置标题
     SetTitle(v) {
         var title = document.querySelector('title')
@@ -147,8 +150,8 @@ let base = {
     // 按某个属性值 去重数组对象
     replace(arr1, name) {
         let arr = arr1
-        for (i = 0; i < arr.length; i++) {
-            for (j = i + 1; j < arr.length; j++) {
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = i + 1; j < arr.length; j++) {
                 if (arr[i][name] == arr[j][name]) {
                     arr.splice(j, 1)
                     j--

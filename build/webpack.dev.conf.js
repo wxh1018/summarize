@@ -65,12 +65,21 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         ignore: ['.*']
       }
     ]),
-    // new webpack.ProvidePlugin({
-    //   wxhfn:[path.resolve('src/utils/base.js','default')],
-    //   $config:[]
-    // })
+    new webpack.ProvidePlugin({
+      wxhfn: [path.resolve('src/utils/base.js', 'default')],
+      "_": 'loadsh'
+      // $config:[]
+    })
   ]
 })
+
+// "eslintConfig": {
+//   "globals": {
+//     "_": true,
+//     // ...etc.
+//     // 注意package.json里不允许注释
+//   }
+// }
 
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
@@ -89,8 +98,8 @@ module.exports = new Promise((resolve, reject) => {
           messages: [`Your application is running here: http://${devWebpackConfig.devServer.host}:${port}`],
         },
         onErrors: config.dev.notifyOnErrors
-        ? utils.createNotifierCallback()
-        : undefined
+          ? utils.createNotifierCallback()
+          : undefined
       }))
 
       resolve(devWebpackConfig)
