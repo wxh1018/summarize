@@ -1,17 +1,13 @@
 <template>
   <div class="home">
     <el-row :gutter="20">
-      <el-col :span="4" v-for="(item,id) in list" :key="id">
-        <div class="box" @click="jump(item.comid)" :style="randomcolor()">{{item.name}}</div>
+      <el-col :span="4" v-for="(item, id) in list" :key="id">
+        <div class="box" @click="jump(item.comid)" :style="randomcolor()">
+          {{ item.name }}
+        </div>
       </el-col>
     </el-row>
     <component :is="componentId"></component>
-    <ul>
-      <template v-for="item in 10">
-        <li>{{item}}</li>
-        <li>{{item}}</li>
-      </template>
-    </ul>
   </div>
 </template>
 <script>
@@ -26,6 +22,8 @@ export default {
         { name: "echarts", comid: "" },
         { name: "upload", comid: "upoload" },
         { name: "step", comid: "step" },
+        { name: "tab", comid: "tab" },
+        { name: "form", comid: "wxhform" },
       ],
       colors: [
         "#55efc4",
@@ -110,6 +108,7 @@ export default {
   position: relative;
   padding: 20px;
 }
+
 .box {
   height: 100px;
   border-radius: 10px;

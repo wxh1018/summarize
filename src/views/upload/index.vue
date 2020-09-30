@@ -1,12 +1,15 @@
 <template>
   <div class="wrap">
-    <wxh-upload />
+    <wxh-upload :action="action" v-model="imgs" />
   </div>
 </template>
 <script>
 export default {
   data() {
-    return {};
+    return {
+      action: "",
+      imgs: "",
+    };
   },
   components: {},
   computed: {},

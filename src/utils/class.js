@@ -54,11 +54,7 @@ class Failtip {
                 }
                 return 1
             }, 50)
-<<<<<<< HEAD
         }, 1500)
-=======
-        }, 2000)
->>>>>>> ca52cbdda66ea835d177c8fc82a06dfb749b3536
     }
 }
 

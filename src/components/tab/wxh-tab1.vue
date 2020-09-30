@@ -3,31 +3,23 @@
     <ul :class="{ end: right }">
       <li
         @click="tab(item)"
-        :class="{ active: active1 == item.id }"
-        v-for="item in tabData"
-        :key="item.id"
+        :class="{ active: active1 == item }"
+        v-for="(item, id) in label"
+        :key="item + '-' + id"
       >
-        {{ item.name }}
+        {{ item }}
       </li>
     </ul>
     <slot></slot>
   </div>
 </template>
 <script>
-// tabData: [
-//       { name: "待审", id: 1 },
-//       { name: "已审", id: 2 },
-//     ],
 export default {
-  name: "wxh-tab",
+  name: "wxh-tab-group",
   props: {
     active: {
-      type: Number,
-      default: 1,
-    },
-    tabData: {
-      type: Array,
-      required: true,
+      type: String,
+      default: "1",
     },
     right: {
       type: Boolean,
@@ -37,19 +29,25 @@ export default {
   data() {
     return {
       active1: this.active,
+      label: [],
     };
   },
   components: {},
-  computed: {},
+  computed: {
+    labels1() {
+      return this.$children.map((v) => v.getlabel());
+    },
+  },
   watch: {},
-  created() {},
-  mounted() {},
+  mounted() {
+    this.label = this.$children.map((v) => v.getlabel());
+  },
   methods: {
     tab(item) {
       if (item.router) {
         this.$router.push(item.router);
       }
-      this.active1 = item.id;
+      this.active1 = item;
       this.$emit("click", item);
     },
   },

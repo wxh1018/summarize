@@ -1,7 +1,11 @@
 <template>
-  <div :class="{show:visibility}" id="map">
+  <div :class="{ show: visibility }" id="map">
     <div class="mapbox" :id="el"></div>
-    <el-input v-model="searchmap" class="searchmap" placeholder="搜索地址"></el-input>
+    <el-input
+      v-model="searchmap"
+      class="searchmap"
+      placeholder="搜索地址"
+    ></el-input>
     <div class="des_sure">
       <wxh-btn @click="disno">取消</wxh-btn>
       <wxh-btn @click="sure">确认</wxh-btn>
@@ -16,13 +20,26 @@ export default {
     prop: "lnglat",
     event: "send",
   },
-  props: ["lnglat", "visibility", "el"],
+  props: {
+    lnglat: {
+      type: String,
+      default: null,
+    },
+    visibility: {
+      type: Boolean,
+      default: true,
+    },
+    // el: {
+    //   type: String,
+    //   default: "el-map" + parseInt(Math.random() * 300),
+    // },
+  },
   data() {
     return {
       lng_lat: "",
       addclass: false,
-      addclass1: false,
       searchmap: "",
+      el: "el-map",
     };
   },
   components: {},
@@ -31,7 +48,6 @@ export default {
   },
   watch: {
     visibility(v) {
-      this.addclass1 = true;
       this.add();
     },
     searchmap(v) {
@@ -39,6 +55,7 @@ export default {
     },
   },
   created() {
+    this.el += parseInt(Math.random() * 1000);
   },
   mounted() {
     this.creat_map();
@@ -129,20 +146,17 @@ export default {
     },
     //确认
     sure() {
-      // this.$parentvisibility
-      // this.$parent.visibility = false
       if (this.lng_lat == "" && this.lnglat == "") {
         console.log("您还未选择坐标点");
         this.base.warn(this, "您还未选择坐标点");
       }
       this.$emit("sure", this.lng_lat);
-      this.$emit("send", this.lng_lat);
-      this.$emit("close");
+      this.disno();
       // map.clearMap();
     },
     // 取消
     disno() {
-      this.$emit("close");
+      this.$emit("update:visibility", false);
     },
   },
 };

@@ -12,7 +12,7 @@
 //   };
 //   this.echar.zhu(obj);
 
-const echarts = {
+export default {
     bing(dom, data, tip, title, radius) {
         radius = radius || '50%'
         dom.setOption({
@@ -337,4 +337,3 @@ const echarts = {
         return normal;
     },
 }
-export default echarts

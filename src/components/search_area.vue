@@ -39,6 +39,7 @@ import XLSX from "xlsx";
 import axios from "axios";
 import $ from "jquery";
 export default {
+  name:'se',
   data() {
     return {
       tabledata: [],

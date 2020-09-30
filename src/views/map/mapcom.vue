@@ -1,6 +1,6 @@
 <template>
   <div class="wrap">
-    <wxh-map :visibility="show_map" v-model="lonLat" el="mapbig1" @close="show_map = false" />
+    <wxh-map :visibility.sync="show_map" v-model="lonLat" @sure="sure" />
     <wxh-btn @click="show_map = !show_map">打开地图</wxh-btn>
   </div>
 </template>
@@ -34,6 +34,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    sure(e) {
+      console.log(e);
+    },
   },
 };
 </script>
