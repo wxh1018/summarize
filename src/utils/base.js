@@ -201,6 +201,157 @@ let base = {
             return obj
         }
         return result;
-    }
+    },
+    setrules(arr) {
+        let obj = {}
+        arr.forEach(v => {
+            obj[v] = [
+                { required: true, message: "请输入该信息", trigger: "change" },
+            ]
+        });
+        return obj
+    },
+    up_to_low(arr1) {
+        let arr = arr1.concat([]);
+        let finally1 = [];
+        for (let i = 0; i < arr.length; i++) {
+            let obj = arr[i]
+            let newobj = {}
+            for (let key in obj) {
+                let name = repeat(key)
+                newobj[name] = obj[key]
+            }
+            finally1.push(newobj)
+        }
+        return finally1
+        //检测多个大写字母
+        function repeat(key) {
+            let str = ''
+            str = fil(key, check(key))//替换——小写
+            if (check(str)) {
+                str = fil(str, check(str))
+            }
+            return str
+        }
+        //替换字母
+        function fil(b, s) {
+            let reg = '/' + s + '/g'
+            return b.replace(eval(reg), '_' + s.toLowerCase())
+        }
+        //返回大写字母
+        function check(key) {
+            let key1 = key.toLowerCase()
+            // console.log(key, key1);
+            let arr2 = key.split('') //old
+            let arr3 = key1.split('') //new
+            //找到大写字母
+            let str;
+            for (let i = 0; i < arr2.length; i++) {
+                if (arr2[i] != arr3[i]) {
+                    return arr2[i]
+                    // let reg = '/' + arr2[i] + "/g";
+                    // str = key.replace(eval(reg), `_${arr3[i]}`)
+                    // console.log(str)
+                }
+            }
+        }
+    },
+    _low_to_up(arr1) {
+        let arr = arr1.concat([]);
+        return arr.map((v) => {
+            let obj = {};
+            for (let i in v) {
+                obj[re(i)] = v[i];
+            }
+            return obj;
+        });
+        //把下滑线替换成大写
+        function re(str) {
+            if (str.indexOf("_") != -1) {
+                let index = str.indexOf("_");
+                let sml = str.substr(index + 1, 1);
+                let reg = "/_" + sml + "/g";
+                let str1 = str.replace(eval(reg), sml.toLocaleUpperCase());
+                if (str1.indexOf("_") != -1) {
+                    str1 = re(str1)
+                }
+                return str1;
+            } else {
+                return str;
+            }
+        }
+    },
+    dateFtt(fmt, date) { //Author Liuzr  
+        fmt = fmt || 'yyyy-MM-dd hh:mm:ss'
+        date = date || new Date()
+        var o = {
+            "M+": date.getMonth() + 1,                 //月份   
+            "d+": date.getDate(),                    //日   
+            "h+": date.getHours(),                   //小时   
+            "m+": date.getMinutes(),                 //分   
+            "s+": date.getSeconds(),                 //秒   
+            "q+": Math.floor((date.getMonth() + 3) / 3), //季度   
+            "S": date.getMilliseconds()             //毫秒   
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    },
+    // 报表下载
+    download(id, name) {
+        var dom1 = document.querySelector(`#${id}`);
+        tableToExcel(dom1, name);
+        //替换table数据和worksheet名字
+        function format(s, c) {
+            return s.replace(/{(\w+)}/g, function (m, p) {
+                return c[p];
+            });
+        }
+        function base64(s) {
+            return window.btoa(unescape(encodeURIComponent(s)));
+        }
+
+        function tableToExcel(tableid, sheetName) {
+            var uri = "data:application/vnd.ms-excel;base64,";
+            var template =
+                '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"' +
+                'xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>' +
+                "<x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets>" +
+                "</x:ExcelWorkbook></xml><![endif]-->" +
+                ' <style type="text/css">' +
+                "table {" +
+                "border: .5pt solid black;" +
+                " }" +
+                "table td {" +
+                "border: .5pt solid black;" +
+                "width: 100px;" +
+                "height: 25px;" +
+                " text-align: center;" +
+                "font-size: 13px;" +
+                " }" +
+                "</style>" +
+                '</head><body ><table class="excelTable">{table}</table></body></html>';
+            var ctx = {
+                worksheet: sheetName || "Worksheet",
+                table: tableid.innerHTML,
+            };
+            let a = document.createElement("a");
+            //表格名字
+            a.download = sheetName || "表格.xls";
+            a.href = uri + base64(format(template, ctx));
+            a.click();
+        }
+    },
+    replacePart(text, s, r) {
+        var pos = text.indexOf(s);
+        return text.slice(0, pos) + r + text.slice(pos + 1);
+    },
+    // 生成一个随机数
+    randomNum(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    },
 }
 export default base

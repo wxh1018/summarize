@@ -2,9 +2,11 @@
   <div>
     <wxh-form ref="fo" v-model="form" :form1="form1"></wxh-form>
     <el-button @click="submit">submit</el-button>
+    <div id="code"></div>
   </div>
 </template>
 <script>
+import { GVerify } from "./code";
 export default {
   data() {
     return {
@@ -35,10 +37,16 @@ export default {
           ],
         },
       ],
-      form: { name: "wangxuehao", sex: "1", },
+      form: { name: "wangxuehao", sex: "1" },
+      verifyCode: null,
     };
   },
   watch: {},
+  mounted() {
+    this.verifyCode = new GVerify("code");
+    // console.log(this.verifyCode);
+    // console.log(this.verifyCode.validate(this.verifyCode.options.code));
+  },
   methods: {
     submit() {
       console.log(this.form);
@@ -47,4 +55,9 @@ export default {
 };
 </script>
 <style scoped lang='less'>
+#code {
+  width: 70px;
+  height: 30px;
+  border: 1px solid red;
+}
 </style>
