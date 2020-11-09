@@ -25,7 +25,7 @@ const files = require.context('./', false, /.js$/)
 console.log(files);
 const models = files.keys().reduce((models, modelpath) => {
     const name = modelpath.replace(/^\.\/(.*)\.\w+$/, '$1')
-    console.log(name);
+    // console.log(name);
 }, {})
 
 

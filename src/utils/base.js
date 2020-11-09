@@ -91,6 +91,54 @@ let base = {
             getSec
         }
     },
+    getTime() {
+        let nowTime = new Date().getTime();
+        function getDate(date) {
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var h = date.getHours();
+            month = month < 10 ? "0" + month : month;
+            day = day < 10 ? "0" + day : day;
+            h = h < 10 ? "0" + h : h;
+            return `${year}-${month}-${day}`;
+        }
+        /**
+         * @param {天数} n
+         * @param {befor , now , after} type
+         */
+        function getDay(n = 0, type = "now") {
+            let date = new Date(nowTime);
+            let nDay = n * 24 * 60 * 60 * 1000;
+            let Day = "";
+            if (type == "before") {
+                //n天前
+                Day = new Date(nowTime - nDay);
+            } else if (type == "now") {
+                //现在
+                Day = new Date(nowTime);
+            } else {
+                //n天后
+                Day = new Date(nowTime + nDay);
+            }
+            let time = getDate(Day);
+            return time;
+        }
+        return { getDay };
+    },
+    getHoursDiff(dt1, dt2) {
+        if (typeof dt1 == "string") {
+            dt1 = new Date(dt1.replace(/-/, "/"));
+            dt2 = new Date(dt2.replace(/-/, "/"));
+        }
+        var res = dt2 - dt1;
+        if (isNaN(res)) throw Error("invalid dates arguments");
+        let re = res / (1000 * 60 * 60);
+        var h = parseInt(re);
+        var m = parseInt((re - h) * 60);
+        // alert("时间相隔" + h + "小时" + m + "分钟");
+        return h;
+    },
     month() {
         let arr = [];
         for (let i = 1; i <= 12; i++) {
