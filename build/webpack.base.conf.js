@@ -3,7 +3,8 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-
+// const TerserPlugin = require('terser-webpack-plugin')
+const BunndleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -11,6 +12,20 @@ function resolve(dir) {
 
 
 module.exports = {
+  // optimization:{
+  //   minimizer:[new TerserPlugin({
+  //     // cache:true,
+  //     parallel:true,
+  //     terserOptions:{
+  //       compress:{
+  //         unused:true,
+  //         drop_debugger:true,
+  //         drop_console:true,
+  //         dead_code:true
+  //       }
+  //     }
+  //   })]
+  // },
   context: path.resolve(__dirname, '../'),
   entry: {
     app: ["babel-polyfill", "./src/main.js"]
@@ -83,5 +98,8 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  plugins:[
+    new BunndleAnalyzerPlugin()
+  ]
 }

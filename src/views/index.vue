@@ -8,6 +8,7 @@
       </el-col>
     </el-row>
     <component :is="componentId"></component>
+    <button @click="tojs">长三角</button>
   </div>
 </template>
 <script>
@@ -98,6 +99,9 @@ export default {
       return co;
     },
     tabevent(v) {},
+    tojs() {
+      this.$router.push("/search_area_data");
+    },
   },
 };
 </script>

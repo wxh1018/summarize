@@ -8,13 +8,18 @@ Vue.prototype.basefn = basefn
 Vue.config.productionTip = false
 import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(Element)
+import directive from './directive'
+import * as filters from './filters'
 import './api'
+Vue.use(Element)
 
 
 import './components'
 import './utils'
-// import base from './until/base';
+Vue.use(directive)
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 /* eslint-disable no-new */
 new Vue({
